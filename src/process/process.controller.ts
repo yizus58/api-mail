@@ -8,8 +8,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ProcessService } from './process.service';
-import { CreateProcessDto } from './dto/create-process.dto';
-import { UpdateProcessDto } from './dto/update-process.dto';
 
 @Controller('process')
 export class ProcessController {

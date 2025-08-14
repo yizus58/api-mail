@@ -12,7 +12,6 @@ export class ProcessService {
   ) {}
 
   async insertDetails(processData) {
-
     const { mailsSuccess, mailsError, messageId } = processData;
 
     if (mailsSuccess && Array.isArray(mailsSuccess)) {
@@ -23,7 +22,7 @@ export class ProcessService {
           status: 'success',
         });
 
-        const save = await this.processRepository.save(processEntity);
+        await this.processRepository.save(processEntity);
       }
     }
 
@@ -35,7 +34,7 @@ export class ProcessService {
           status: 'error',
         });
 
-        const save = await this.processRepository.save(processEntity);
+        await this.processRepository.save(processEntity);
       }
     }
   }
