@@ -17,24 +17,4 @@ export class ProcessController {
   insertDetails(@Body() createProcessDto: any) {
     return this.processService.insertDetails(createProcessDto);
   }
-
-  @Get()
-  findAll() {
-    return this.processService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.processService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProcessDto: any) {
-    return this.processService.update(id, updateProcessDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.processService.remove(id);
-  }
 }

@@ -23,10 +23,11 @@ export class MailService {
     });
     transporter.verify(function (error, success) {
       if (error) {
-        console.log(error);
-      } else {
-        console.log('Server is ready to take our messages', success);
+        console.error(error);
+        return false;
       }
+
+      console.log('Server is ready to take our messages', success);
     });
     return transporter;
   }
@@ -68,7 +69,7 @@ export class MailService {
       };
       await this.processService.insertDetails(data);
     } catch (error) {
-      console.log('Error al enviar el correo, info: ', error);
+      console.error('Error al enviar el correo, info: ', error);
       throw error;
     }
   }
