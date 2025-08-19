@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
 import { Process } from './entities/process.entity';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class ProcessService {
@@ -12,7 +13,8 @@ export class ProcessService {
 
   async insertDetails(processData: any) {
     const { mailsSuccess, mailsError, messageId } = processData;
-    const savedItems: Process[] = [];
+    const savedItems: any[] = [];
+    let idMongo: ObjectId;
 
     if (mailsSuccess && Array.isArray(mailsSuccess)) {
       for (const mail of mailsSuccess) {
@@ -23,10 +25,11 @@ export class ProcessService {
         });
         const saved = await this.processRepository.save(processEntity);
         if (saved) {
+          idMongo = saved._id;
           savedItems.push({
-            id: saved._id,
+            id: idMongo,
             email: saved.email,
-            status: saved.status
+            status: saved.status,
           });
         }
       }
@@ -41,10 +44,11 @@ export class ProcessService {
         });
         const saved = await this.processRepository.save(processEntity);
         if (saved) {
+          idMongo = saved._id;
           savedItems.push({
-            id: saved._id,
+            id: idMongo,
             email: saved.email,
-            status: saved.status
+            status: saved.status,
           });
         }
       }

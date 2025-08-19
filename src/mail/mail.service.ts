@@ -26,13 +26,11 @@ export class MailService {
         console.error(error);
         return false;
       }
-
-      console.log('Server is ready to take our messages', success);
     });
     return transporter;
   }
 
-  async sendMail(dto: EmailDto) {
+  async sendMail(dto: EmailDto, opportunity?: number) {
     if (!dto) {
       throw new Error('Los datos del email son requeridos');
     }
@@ -53,7 +51,6 @@ export class MailService {
       to: recipients,
       subject: subject,
       html: html,
-      //replyTo: emailUser,
     };
 
     if (text) {

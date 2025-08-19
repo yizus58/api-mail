@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MailModule } from './mail/mail.module';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailModule } from './mail/mail.module';
+import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common';
 import { ProcessModule } from './process/process.module';
+import { AppController } from './app.controller';
+import { RabbitMQModule } from './rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ProcessModule } from './process/process.module';
     }),
     MailModule,
     ProcessModule,
+    RabbitMQModule,
   ],
   controllers: [AppController],
   providers: [AppService],
