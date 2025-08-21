@@ -8,14 +8,12 @@ import {
 import { RabbitMQService, QueueMessage } from './rabbitmq.service';
 import { MailService } from '../mail/mail.service';
 
-export interface TestMessage {
-  type: string;
-  data: {
-    recipients: string | string[];
-    subject: string;
-    html: string;
-    [key: string]: any;
-  };
+export interface MailParams {
+  recipients: string[];
+  subject: string;
+  html: string;
+  name_file?: string;
+  s3_name?: string;
 }
 
 export interface PublishMessageDto {
@@ -61,12 +59,19 @@ export class RabbitMQController implements OnApplicationBootstrap {
                 ? message.data.recipients
                 : [message.data.recipients];
 
+              const params: MailParams = {
+                recipients: recipients,
+                subject: message.data.subject,
+                html: message.data.html,
+              };
+
+              if (message.data.attachments) {
+                params.name_file = message.data.attachments.name_file;
+                params.s3_name = message.data.attachments.s3_name;
+              }
+
               await this.mailService.sendMail(
-                {
-                  recipients: recipients,
-                  subject: message.data.subject,
-                  html: message.data.html,
-                },
+                params,
                 currentRetryCount,
               );
             } catch (error) {

@@ -13,4 +13,10 @@ export class EmailDto {
   @IsOptional()
   @IsString()
   text?: string;
+
+  @IsOptional()
+  name_file?: string;
+
+  @IsOptional()
+  s3_name?: string;
 }
