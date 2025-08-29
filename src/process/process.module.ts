@@ -1,8 +1,8 @@
-import { Process } from './entities/process.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { ProcessService } from './process.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Process } from './entities/process.entity';
 import { ProcessController } from './process.controller';
+import { ProcessService } from './process.service';
 
 @Module({
   controllers: [ProcessController],

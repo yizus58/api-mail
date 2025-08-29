@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MailController } from './mail.controller';
 import { MailService } from './mail.service';
-import { ConfigModule } from '@nestjs/config';
 import { ProcessModule } from '../process/process.module';
 import { R2Service } from '../services/r2.service';
 @Module({

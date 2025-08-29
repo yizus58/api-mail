@@ -1,4 +1,19 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class AttachmentDto {
+  @IsString()
+  name_file: string;
+
+  @IsString()
+  s3_name: string;
+}
 
 export class EmailDto {
   @IsEmail({}, { each: true })
@@ -15,8 +30,8 @@ export class EmailDto {
   text?: string;
 
   @IsOptional()
-  name_file?: string;
-
-  @IsOptional()
-  s3_name?: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => AttachmentDto)
+  attachments?: AttachmentDto[];
 }

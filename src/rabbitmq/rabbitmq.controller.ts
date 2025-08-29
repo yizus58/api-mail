@@ -8,12 +8,16 @@ import {
 import { RabbitMQService, QueueMessage } from './rabbitmq.service';
 import { MailService } from '../mail/mail.service';
 
+export interface AttachmentParams {
+  name_file: string;
+  s3_name: string;
+}
+
 export interface MailParams {
   recipients: string[];
   subject: string;
   html: string;
-  name_file?: string;
-  s3_name?: string;
+  attachments?: AttachmentParams[];
 }
 
 export interface PublishMessageDto {
@@ -66,14 +70,24 @@ export class RabbitMQController implements OnApplicationBootstrap {
               };
 
               if (message.data.attachments) {
-                params.name_file = message.data.attachments.name_file;
-                params.s3_name = message.data.attachments.s3_name;
+                console.log('ATTACHMENTS', message.data.attachments);
+
+                // Si es un array, usar tal como está
+                if (Array.isArray(message.data.attachments)) {
+                  params.attachments = message.data.attachments;
+                } 
+                // Si es un objeto único, convertirlo a array
+                else if (message.data.attachments.name_file && message.data.attachments.s3_name) {
+                  params.attachments = [
+                    {
+                      name_file: message.data.attachments.name_file,
+                      s3_name: message.data.attachments.s3_name
+                    }
+                  ];
+                }
               }
 
-              await this.mailService.sendMail(
-                params,
-                currentRetryCount,
-              );
+              await this.mailService.sendMail(params, currentRetryCount);
             } catch (error) {
               console.error(
                 `Failed to send email on attempt ${currentRetryCount + 1}:`,
